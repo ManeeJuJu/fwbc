@@ -1,0 +1,16 @@
+#!/bin/bash
+fun0001() {
+  local a="*.try";
+  echo ${a}   #bug0001.try (See reason 1)
+  echo "${a}" #*.try (See reason 2)
+}
+fun0001
+
+#Reasons:
+#1. The command "echo *" output all files in current folder
+#   and "*.try" becomes a globbing to match any files with name ended in ".try".
+#   If there is a file "fun0002.try" in the current directory,
+#   "fun0001.try fun0002.try" will be output.
+#   If the current directory is not same as the current file,
+#   the output would be different too.
+#2. The outer double quotation marks ensure the things inside is a string.
